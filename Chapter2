@@ -1,1 +1,62 @@
+The majority element
 
+  1 #include <iostream>
+  2 #include <stdlib.h>
+  3 using namespace std;
+  4 #include <vector>
+  5 
+  6 int Partition(int a[], int start, int end)
+  7 {
+  8     int privot = a[start];
+  9     while(start < end)
+ 10     {
+ 11         while(a[end] >= privot && end > start)
+ 12             --end;
+ 13         a[start] = a[end];
+ 14 
+ 15         while(a[start] <= privot && start < end)
+ 16             ++start;
+ 17         a[end] = a[start];
+ 18     }
+ 19     a[start] = privot;
+ 20     return start;
+ 21 }
+
+ 23 bool CheckMoreThanHalf(int a[], int len,  int result)
+ 24 {
+ 25     int count = 0;
+ 26     for(int i = 0; i < len; ++i)
+ 27         if(result == a[i])
+ 28             count++;
+ 29     if(count >= len/2)
+ 30         return true;
+ 31     return false;
+ 32 }
+ 
+ 34 int MoreThanHalf(int a[], int len, int start, int end)
+ 35 {
+ 36     if(len == 0)
+ 37         return -1;
+ 38 
+ 39     int index = Partition(a, start, end);
+ 40     int middle = len/2;
+ 41     while(index != middle)
+ 42     {
+ 43         if(index > middle)
+ 44             index = Partition(a, start, index-1);
+ 45         else
+ 46             index = Partition(a, index+1, end);
+ 47     }
+ 48     int result = a[middle];
+ 49     if(!CheckMoreThanHalf(a,len, result))
+ 50         return -1;
+ 51     return a[middle];
+ 52 }
+ 54 int main()
+ 55 {
+ 56     int a[] = {3, 3, 4, 2, 4, 4, 2, 4, 4};
+ 57     int len = sizeof(a)/sizeof(int);
+ 58     int half = MoreThanHalf(a, len, 0, len-1);
+ 59     cout << half << endl;
+ 60     return 0;
+ 61 }
