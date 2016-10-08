@@ -1,0 +1,33 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <algorithm>
+using std::sort;
+#define MAXN 30
+int cmp(const void *a, const void *b)
+{
+    return *(int *)a - *(int *)b;
+}
+
+int main()
+{
+    char s1[MAXN];
+    char s2[MAXN];
+    while(scanf("%s",s1) == 1 && s1[0] != '0')
+    {
+        int n1 = strlen(s1);
+        sort(s1, s1+n1);
+       // qsort(s1, n1, sizeof(s1[0]), cmp);
+        //getchar();
+        scanf("%s", s2);
+        int n2 = strlen(s2);
+        //qsort(s2, n2, sizeof(s2[0]), cmp);
+        sort(s2, s2+n2);
+        if(strcmp(s1, s2))
+            printf("NO\n");
+        else {
+            printf("YES\n");
+        }
+    }
+    return 0;
+}

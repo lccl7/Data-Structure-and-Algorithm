@@ -1,0 +1,68 @@
+// The computer operates on a single stack of sets, which is initially empty.
+// After each operation, the cardinality of the topmost set on the stack is output. 
+// The cardinality of a set S is denoted j S j and is the number of elements in S
+// The instruction set of the SetStack Alpha is PUSH, DUP, UNION, INTERSECT,and ADD
+
+// We use a integer ID to represent a set, that is a map calledd IDcache.
+// A vector that is used for fetching the Set with the right ID.
+// The function ID() is to find the right ID of the Set.
+#include <iostream>
+#include <algorithm>
+#include <vector>
+#include <stack>
+#include <map>
+#include <set>
+#include <string>
+using std::string;
+using std::vector;
+using std::map;
+using std::set;
+using std::stack;
+using std::cout;
+using std::cin;
+using std::endl;
+using std::inserter;
+using std::set_union;
+using std::set_intersection;
+
+typedef set<int> Set;
+map<Set, int> IDcache;
+vector<Set> Setcache;
+int ID(Set x);
+
+int main()
+{
+    int T, n;
+    stack<int> setstk;
+    cin >> T;
+    while(T--)
+    {
+        cin >> n;
+        for(int i = 0; i < n; i++)
+        {
+            string op;
+            cin >> op;
+            if(op[0] == 'P') setstk.push(ID(Set()));
+            else if(op[0] == 'D') setstk.push(setstk.top());
+            else {
+                Set x1 = Setcache[setstk.top()]; setstk.pop();
+                Set x2 = Setcache[setstk.top()]; setstk.pop();
+                Set x;
+                if(op[0] == 'U') set_union(x1.begin(), x1.end(), x2.begin(), x2.end(), inserter(x, x.begin()));
+                if(op[0] == 'I') set_intersection(x1.begin(), x1.end(), x2.begin(), x2.end(), inserter(x, x.begin()));
+                if(op[0] == 'A') {x = x2; x.insert(ID(x1));}
+                setstk.push(ID(x));
+            }
+                cout << Setcache[setstk.top()].size() << endl;
+        }
+        cout << "***" << endl;
+    }
+    return 0;
+}
+
+int ID(Set x)
+{
+    if(IDcache.count(x)) return IDcache[x];
+    Setcache.push_back(x);
+    return IDcache[x] = Setcache.size()-1;
+}

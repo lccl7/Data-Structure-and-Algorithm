@@ -1,0 +1,24 @@
+#include <stdio.h>
+
+int main()
+{
+    int n;
+    int i, j;
+    scanf("%d", &n);
+    i = 1; j = 2*n -1;
+    for(; i <= j; i++, j--)
+    {
+        for(int k1=1; k1 < i; k1++)
+            printf(" ");
+        int begin = i, end = j;
+        while(begin <= end)
+        {
+            printf("#");
+            begin++;
+        }
+        for(int k2 = 2*n-1; k2 > j; k2--)
+            printf(" ");
+        printf("\n");
+    }
+    return 0;
+}

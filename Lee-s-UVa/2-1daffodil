@@ -1,0 +1,16 @@
+#include <stdio.h>
+
+int main()
+{
+    int a, b, c, s;
+    for(int i = 100; i <= 999; i++)
+    {
+        a = i%10;
+        b = i/100;
+        c = i/10%10;
+        s = a*a*a + b*b*b + c*c*c;
+        if(i == s)
+            printf("%d = %d^3 + %d^3 + %d^3\n", i, b, c, a);
+    }
+    return 0;
+}

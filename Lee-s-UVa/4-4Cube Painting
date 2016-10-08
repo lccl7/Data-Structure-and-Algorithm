@@ -1,0 +1,69 @@
+//Sample Input:
+rbgggrrggbgr
+rrrbbbrrbbbr
+rbgrgbrrrrrg
+//Sample Output:
+TRUE
+FALSE
+FALSE
+
+//cube1 as the first cube, cube2 as the second one, we can rotate the second
+//to see whether they are the same.
+//The array cube is a cube that the top face number is 1,2,3,4,5,6
+//so, we can use this one just to rotate in the z-axis.
+#include <stdio.h>
+#include <string.h>
+const int cube[6][6] =
+        {
+            {1,2,3,4,5,6},
+            {2,6,3,4,1,5},
+            {3,2,6,1,5,4},
+            {4,2,1,6,5,3},
+            {5,1,3,4,6,2},
+            {6,5,3,4,2,1}
+        };
+char cube1[10], cube2[10];
+char str[20];
+int sameCube();
+
+int main()
+{
+    while(scanf("%s",str) != EOF)
+    {
+        for(int i = 0; i < 6; i++)
+        {
+            cube1[i] = str[i];
+            cube2[i] = str[6+i];
+        }
+        if(sameCube())
+            puts("TRUE");
+        else
+            puts("FALSE");
+    }
+    return 0;
+}
+
+int sameCube()
+{
+    char tmp[10] = {0};
+
+    for(int i = 0; i < 6; i++)
+    {
+        for(int j = 0; j < 6; j++)
+        {
+            tmp[j] = cube2[cube[i][j]-1];
+        }
+        for(int i = 0; i < 4; i++)
+        {
+            char ch;
+            ch = tmp[1];
+            tmp[1] = tmp[2];
+            tmp[2] = tmp[4];
+            tmp[4] = tmp[3];
+            tmp[3] = ch;
+            if(strcmp(tmp, cube1) == 0)
+                return 1;
+        }
+    }
+    return 0;
+}

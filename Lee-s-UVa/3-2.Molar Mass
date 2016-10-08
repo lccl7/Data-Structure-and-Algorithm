@@ -1,0 +1,49 @@
+#include <stdio.h>
+#include <string.h>
+#include <ctype.h>
+#define MAX 100
+
+int main()
+{
+    const double CM = 12.01, HM = 1.008, OM = 16.00, NM = 14.01;
+    char ele;
+    int T;
+    scanf("%d", &T);
+    char s[MAX];
+    while(T--)
+    {
+        scanf("%s", s);
+        int n = strlen(s);
+        int C = 0, H = 0, O = 0, N = 0;
+        int i = 0;
+        double sum = 0;
+        while(i < n)
+        {
+            if(isalpha(s[i]))
+            {
+                ele = s[i];
+                int num = 0;
+                while(isdigit(s[++i]))
+                    num = num*10 + s[i] - '0';
+                if(!num) num++;
+                switch(ele)
+                {
+                    case 'C':
+                        C += num;
+                        break;
+                    case 'H':
+                        H += num;
+                        break;
+                    case 'O':
+                        O += num;
+                        break;
+                    case 'N':
+                        N += num;
+                }
+            }
+            sum = C*CM + H*HM + O*OM + N*NM;
+        }
+        printf("%.3f\n", sum);
+    }
+    return 0;
+}

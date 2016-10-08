@@ -1,0 +1,16 @@
+#include <stdio.h>
+int main()
+{
+    int m, n, kase = 0;
+    while(scanf("%d%d", &n, &m) == 2 && m && n)
+    {
+        kase++;
+        double s = 0.0;
+        for(int i = n; i <= m; i++)
+        {
+            s += (double)1.0/i / i;
+        }
+        printf("Case %d: %.5f\n", kase, s);
+    }
+    return 0;
+}
