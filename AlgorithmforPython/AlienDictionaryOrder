@@ -1,0 +1,64 @@
+class Node():
+    def __init__(self):
+        self.degree = 0
+        self.neighbour = []
+        self.exist = False
+#        self.ch = ''
+
+def C2I(c):
+    return ord(c) - ord('a')
+
+def I2C(i):
+    return chr(i + ord('a'))
+
+charsum = 26
+def AlienOrder(words):
+    Nodes = []
+    for i in range(charsum):
+        Nodes.append(Node())
+
+# build graph of chars
+    i = 0
+    startp = ''
+    endp = ''
+    while i < len(words):
+        for c in words[i]:
+            Nodes[C2I(c)].exist = True
+        if i != len(words)-1:
+            minwordlen = min(len(words[i]), len(words[i+1]))
+            for j in range(minwordlen):
+                if words[i][j] != words[i+1][j]:
+                    startp = words[i][j]
+                    endp = words[i+1][j]
+                    break
+            if startp != endp:
+                Nodes[C2I(startp)].neighbour.append(endp)
+                Nodes[C2I(endp)].degree += 1
+        i += 1
+    for i in range(charsum):
+        if Nodes[i].exist == True:
+            print '%s: %d' %(I2C(i), Nodes[i].degree)
+            for c in Nodes[i].neighbour:
+                print c
+# Topsort
+    AllIndex = []
+    Dic = ''
+    for i in range(charsum):
+        if Nodes[i].exist == True and Nodes[i].degree == 0:
+            AllIndex.append(i)
+
+    while len(AllIndex) != 0:
+        NodeNum = AllIndex.pop(0)
+        Dic += I2C(NodeNum)
+        for c in Nodes[NodeNum].neighbour:
+            Nodes[C2I(c)].degree -= 1
+            if Nodes[C2I(c)].degree == 0:
+                AllIndex.append(C2I(c))
+
+    for i in range(charsum):
+        if Nodes[i].degree != 0:
+            return ''
+    return Dic
+
+words = ["wrt", "wrf", "er", "ett", "rftt"]
+print AlienOrder(words)
